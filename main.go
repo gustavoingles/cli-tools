@@ -1,9 +1,19 @@
 package main
 
-import ()
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-
+	calculator := calculator{}
+	fmt.Println("If you want to sum two numbers, type \"sum\", if you want to subtract two numbers, type \"subtract\", if you want to multiply two numbers, type \"multiply\", if you want to divide two numbers, type \"divide\"")
+	if os.Args[1] == "sum" {
+		for i, _ := range os.Args[2:] {
+			number := float64(i)
+			calculator.firstNumber = number
+		}
+	}
 }
 
 type calculator struct {
