@@ -1,8 +1,8 @@
 package main
 
-import ()
+import (
+)
 
 func main() {
-	calculator := initializeCalculator()
-	calculator.calculatorWorkflow()
+
 }

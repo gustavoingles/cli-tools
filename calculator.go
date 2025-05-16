@@ -3,9 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"strconv"
-	"os"
 	"log"
+	"os"
+	"strconv"
 )
 
 type calculator struct {
@@ -26,7 +26,7 @@ func (c *calculator) calculatorWorkflow() {
 	chosenOperation := scanner.Text()
 	if chosenOperation == "sum" {
 		err := c.collectNumbers()
-		if err!= nil {
+		if err != nil {
 			log.Printf("Failed to collect numbers: %v", err)
 		}
 
@@ -35,25 +35,25 @@ func (c *calculator) calculatorWorkflow() {
 		fmt.Printf("The sum between %.2f and %.2f is equals to %.2f\n", c.firstNumber, c.secondNumber, totalSum)
 	} else if chosenOperation == "subtract" {
 		err := c.collectNumbers()
-			if err!= nil {
-				log.Printf("Failed to collect numbers: %v", err)
-			}
+		if err != nil {
+			log.Printf("Failed to collect numbers: %v", err)
+		}
 
 		totalSubtraction := c.subtract()
 
 		fmt.Printf("The subtraction between %.2f and %.2f is equals to %.2f\n", c.firstNumber, c.secondNumber, totalSubtraction)
 	} else if chosenOperation == "multiply" {
 		err := c.collectNumbers()
-			if err!= nil {
-				log.Printf("Failed to collect numbers: %v", err)
-			}
+		if err != nil {
+			log.Printf("Failed to collect numbers: %v", err)
+		}
 
 		totalMultiplication := c.multiply()
 
 		fmt.Printf("The subtraction between %.2f and %.2f is equals to %.2f\n", c.firstNumber, c.secondNumber, totalMultiplication)
 	} else if chosenOperation == "divide" {
 		err := c.collectNumbers()
-		if err!= nil {
+		if err != nil {
 			log.Printf("Failed to collect numbers: %v", err)
 		}
 
