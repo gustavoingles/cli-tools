@@ -9,7 +9,7 @@ import (
 )
 
 func getWeatherInfo() {
-	resp, err := http.Get("https://api.open-meteo.com/v1/forecast?latitude=-9.6658&longitude=-35.7353&hourly=temperature_2m,precipitation_probability,relative_humidity_2m&timezone=auto")
+	resp, err := http.Get("https://api.weatherapi.com/v1/current.json?q=Maceio&key=5d9163f72c2a45749e0202217251605")
 	if err != nil {
 		log.Fatalf("Failed to fetch the api data: %v", err)
 	}
@@ -20,16 +20,36 @@ func getWeatherInfo() {
 		log.Fatalf("Failed to read the response body: %v", err)
 	}
 
-	var respBodyJSON map[string]any
+	type Location struct {
+		Name string `json:"name"`
+		Region string `json:"region"`
+		Country string `json:"country"`
+		TimezoneId string `json:"tz_id"`
+		Localtime string `json:"localtime"`
+	}
 
-	err = json.Unmarshal(respBody, &respBodyJSON)
+	type Condition struct {
+		Text string `json:"text"`
+	}
+
+	type Current struct {
+		Temperature float64 `json:"temp_c"`
+		Condition Condition `json:"condition"`
+	}
+
+
+	type weatherInfo struct {
+		Location Location `json:"location"`
+		Current Current `json:"current"`
+	}
+
+	weather := weatherInfo{}
+	json.Unmarshal(respBody, &weather)
+
+	weatherJSON, err := json.MarshalIndent(weather, "", " ")
 	if err != nil {
-		log.Fatalf("Failed unmarshaling the response body: %v", err)
+		log.Fatalf("Failed marshaling into JSON: %v", err)
 	}
 	
-	prettyJSON, err := json.MarshalIndent(respBodyJSON, "", " ")
-	if err != nil {
-		log.Fatalf("Failed marshaling with indetation: %v", err)
-	}
-	
+	fmt.Println(string(weatherJSON))
 }
