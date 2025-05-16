@@ -24,19 +24,28 @@ func main() {
 
 		fmt.Printf("The sum between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalSum)
 	} else if chosenOperation == "subtract" {
-		calculator.collectNumbers()
+		err := calculator.collectNumbers()
+			if err!= nil {
+				log.Printf("Failed to collect numbers: %v", err)
+			}
 
 		totalSubtraction := calculator.subtract()
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalSubtraction)
 	} else if chosenOperation == "multiply" {
-		calculator.collectNumbers()
+		err := calculator.collectNumbers()
+			if err!= nil {
+				log.Printf("Failed to collect numbers: %v", err)
+			}
 
 		totalMultiplication := calculator.multiply()
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalMultiplication)
 	} else if chosenOperation == "divide" {
-		calculator.collectNumbers()
+		err := calculator.collectNumbers()
+		if err!= nil {
+			log.Printf("Failed to collect numbers: %v", err)
+		}
 
 		totalDivision := calculator.divide()
 
@@ -85,6 +94,9 @@ func (c calculator) multiply() float64 {
 	return c.firstNumber * c.secondNumber
 }
 
-func (c calculator) divide() float64 {
-	return c.firstNumber / c.secondNumber
+func (c calculator) divide() (float64, error) {
+	if c.secondNumber == 0 {
+		return 0, fmt.Errorf("It's impossible to divide any number by zero, please choose other number")
+	}
+	return c.firstNumber / c.secondNumber, nil
 }
