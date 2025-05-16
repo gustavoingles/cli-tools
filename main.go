@@ -15,83 +15,30 @@ func main() {
 	scanner.Scan()
 	chosenOperation := scanner.Text()
 	if chosenOperation == "sum" {
-		scanner.Scan()
-		firstNumber := scanner.Text()
-		convFirstNumber, err := strconv.ParseFloat(firstNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
+		err := calculator.collectNumbers()
+		if err!= nil {
+			log.Printf("Failed to collect numbers: %v", err)
 		}
-		calculator.firstNumber = convFirstNumber
 
-		scanner.Scan()
-		secondNumber := scanner.Text()
-		convSecondNumber, err := strconv.ParseFloat(secondNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.secondNumber = convSecondNumber
-
-		totalSum := calculator.firstNumber + calculator.secondNumber
+		totalSum := calculator.sum()
 
 		fmt.Printf("The sum between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalSum)
 	} else if chosenOperation == "subtract" {
-		scanner.Scan()
-		firstNumber := scanner.Text()
-		convFirstNumber, err := strconv.ParseFloat(firstNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.firstNumber = convFirstNumber
+		calculator.collectNumbers()
 
-		scanner.Scan()
-		secondNumber := scanner.Text()
-		convSecondNumber, err := strconv.ParseFloat(secondNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.secondNumber = convSecondNumber
-
-		totalSubtraction := calculator.firstNumber - calculator.secondNumber
+		totalSubtraction := calculator.subtract()
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalSubtraction)
 	} else if chosenOperation == "multiply" {
-		scanner.Scan()
-		firstNumber := scanner.Text()
-		convFirstNumber, err := strconv.ParseFloat(firstNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.firstNumber = convFirstNumber
+		calculator.collectNumbers()
 
-		scanner.Scan()
-		secondNumber := scanner.Text()
-		convSecondNumber, err := strconv.ParseFloat(secondNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.secondNumber = convSecondNumber
-
-		totalMultiplication := calculator.firstNumber * calculator.secondNumber
+		totalMultiplication := calculator.multiply()
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalMultiplication)
 	} else if chosenOperation == "divide" {
-				scanner.Scan()
-		firstNumber := scanner.Text()
-		convFirstNumber, err := strconv.ParseFloat(firstNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.firstNumber = convFirstNumber
+		calculator.collectNumbers()
 
-		scanner.Scan()
-		secondNumber := scanner.Text()
-		convSecondNumber, err := strconv.ParseFloat(secondNumber, 64)
-		if err != nil {
-			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
-		}
-		calculator.secondNumber = convSecondNumber
-
-		totalDivision := calculator.firstNumber / calculator.secondNumber
+		totalDivision := calculator.divide()
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalDivision)
 	}
@@ -102,11 +49,28 @@ type calculator struct {
 	secondNumber float64
 }
 
-type operations interface {
-	sum(x, y float64) float64
-	subtract(x, y float64) float64
-	multiply(x, y float64) float64
-	divide(x, y float64) float64
+func (c *calculator) collectNumbers() error {
+	scanner := bufio.NewScanner(os.Stdin)
+
+	fmt.Println("Please choose the first number")
+	scanner.Scan()
+	firstNumber := scanner.Text()
+	convFirstNumber, err := strconv.ParseFloat(firstNumber, 64)
+	if err != nil {
+		return fmt.Errorf("it's happened an error while parsing the first number, please verify it: %w", err)
+	}
+	c.firstNumber = convFirstNumber
+
+	fmt.Println("Please choose the second number")
+	scanner.Scan()
+	secondNumber := scanner.Text()
+	convSecondNumber, err := strconv.ParseFloat(secondNumber, 64)
+	if err != nil {
+		return fmt.Errorf("it's happened an error while parsing the second number, please verify it: %w", err)
+	}
+	c.secondNumber = convSecondNumber
+
+	return nil
 }
 
 func (c calculator) sum() float64 {
