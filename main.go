@@ -54,6 +54,26 @@ func main() {
 		totalSubtraction := calculator.firstNumber - calculator.secondNumber
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalSubtraction)
+	} else if chosenOperation == "multiply" {
+		scanner.Scan()
+		firstNumber := scanner.Text()
+		convFirstNumber, err := strconv.ParseFloat(firstNumber, 64)
+		if err != nil {
+			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
+		}
+		calculator.firstNumber = convFirstNumber
+
+		scanner.Scan()
+		secondNumber := scanner.Text()
+		convSecondNumber, err := strconv.ParseFloat(secondNumber, 64)
+		if err != nil {
+			log.Printf("It's happened an error while parsing the chosen number, please verify it: %v", err)
+		}
+		calculator.secondNumber = convSecondNumber
+
+		totalMultiplication := calculator.firstNumber * calculator.secondNumber
+
+		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalMultiplication)
 	}
 }
 
