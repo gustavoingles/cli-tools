@@ -12,7 +12,7 @@ func createFile(fileName string) string {
 	if err != nil {
 		log.Fatalf("Failed to create the file: %v", err)
 	}
-	
+
 	absolutePath, err := filepath.Abs(fileName)
 	if err != nil {
 		log.Fatalf("Failed to reach your file's path: %v", err)
