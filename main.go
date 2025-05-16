@@ -47,7 +47,10 @@ func main() {
 			log.Printf("Failed to collect numbers: %v", err)
 		}
 
-		totalDivision := calculator.divide()
+		totalDivision, err := calculator.divide()
+		if err != nil {
+			fmt.Println("You can't divide any number by zero, please restart the program and choose another combination of numbers, please")
+		}
 
 		fmt.Printf("The subtraction between %f and %f is equals to %f\n", calculator.firstNumber, calculator.secondNumber, totalDivision)
 	}
@@ -96,7 +99,7 @@ func (c calculator) multiply() float64 {
 
 func (c calculator) divide() (float64, error) {
 	if c.secondNumber == 0 {
-		return 0, fmt.Errorf("It's impossible to divide any number by zero, please choose other number")
+		return 0, fmt.Errorf("it's impossible to divide any number by zero, please choose other number")
 	}
 	return c.firstNumber / c.secondNumber, nil
 }
